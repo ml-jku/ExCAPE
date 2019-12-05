@@ -17,8 +17,6 @@ Analysis scripts:
 Prospective Analysis:
 * Results from the Retrospective Analysis (Double-CV) are reused for hyperparameter selection of the final model
 
-Predictive Model available at:
-
 File to obtain predictions:
 * indExcape0
 
