@@ -197,23 +197,22 @@ pickle.dump(sampleECFP6Var005Ind, f, -1)
 pickle.dump(featureECFP6Var005Ind, f, -1)
 f.close()
 
+
+
 #ecfp6Mat2=ecfp6Mat.copy()
 #ecfp6Mat2.data[:]=ecfp6Mat2.data*ecfp6Mat2.data
-#print(np.sum(np.abs((ecfp6Mat2.mean(0).A[0]-ecfp6Mat.mean(0).A[0]**2)[0:2000]-np.var(ecfp6Mat[:,0:2000].A,0)[0:2000]))) #==> 7.96632702194e-13 (==> formula correct)
-#print(np.sum((ecfp6Mat2.mean(0).A[0]-ecfp6Mat.mean(0).A[0]**2)>0.05)) #217 different from ecfp6Var005Mat.shape[1]==29413 ==> error in variance computation for ecfp6Var005Mat?
+#featSelVar005=((ecfp6Mat2.sum(0).A[0].astype(np.float64)/ecfp6Mat2.getnnz(0).astype(np.float64))-(ecfp6Mat.sum(0).A[0].astype(np.float64)/ecfp6Mat2.getnnz(0).astype(np.float64))**2)>0.05
 
-#selIndSamples=sampleECFP6Ind[sampleECFP6Var005Ind.index.values].values
-#selIndFeatures=featureECFP6Ind[featureECFP6Var005Ind.index.values].values
-#ecfp6MatSel=ecfp6Mat[selIndSamples]
-#ecfp6MatSel=ecfp6MatSel.T.tocsr()
-#ecfp6MatSel.sort_indices()
-#ecfp6MatSel=ecfp6MatSel[selIndFeatures]
-#ecfp6MatSel=ecfp6MatSel.T.tocsr()
-#ecfp6MatSel.sort_indices()
-#ecfp6MatSel.eliminate_zeros()
-#ecfp6MatSel=ecfp6MatSel.tocsr()
-#ecfp6MatSel.sort_indices()
-#assert(np.all(ecfp6MatSel.data==ecfp6Var005Mat.data))
-#assert(np.all(ecfp6MatSel.indices==ecfp6Var005Mat.indices))
-#assert(np.all(ecfp6MatSel.indptr==ecfp6Var005Mat.indptr))
-#strange is the different number of samples!
+#ecfp6Var005Recon=ecfp6Mat[:,featSelVar005].copy()
+#sampleSelVar005=ecfp6Var005Recon.getnnz(1)>=0.5
+#ecfp6Var005Recon=ecfp6Var005Recon[sampleSelVar005]
+#ecfp6Var005Recon.eliminate_zeros()
+#ecfp6Var005Recon.tocsr()
+#ecfp6Var005Recon.sort_indices()
+
+#assert(np.all(ecfp6Var005Recon.data==ecfp6Var005Mat.data))
+#assert(np.all(ecfp6Var005Recon.indices==ecfp6Var005Mat.indices))
+#assert(np.all(ecfp6Var005Recon.indptr==ecfp6Var005Mat.indptr))
+#assert(np.all(sampleECFP6Ind.index.values[sampleSelVar005]==sampleECFP6Var005Ind.index.values))
+#assert(np.all(featureECFP6Ind.index.values[featSelVar005]==featureECFP6Var005Ind.index.values))
+
